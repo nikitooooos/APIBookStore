@@ -11,19 +11,15 @@ import static io.restassured.filter.log.LogDetail.STATUS;
 import static io.restassured.http.ContentType.JSON;
 import static helpers.CustomAllureListener.withCustomTemplates;
 
-public class BookSpecs {
-    public static final RequestSpecification bookRequestSpec = with()
+public class Specs {
+    public static RequestSpecification requestSpec = with()
             .filter(withCustomTemplates())
-            .contentType(JSON)
             .log().uri()
-            .log().method();
+            .log().method()
+            .log().body()
+            .contentType(JSON);
 
-    public static final ResponseSpecification bookResponseSpec = new ResponseSpecBuilder()
-            .log(STATUS)
-            .log(BODY)
-            .build();
-
-    public static final ResponseSpecification addBookResponseSpec = new ResponseSpecBuilder()
+    public static ResponseSpecification responseSpec = new ResponseSpecBuilder()
             .log(STATUS)
             .log(BODY)
             .build();

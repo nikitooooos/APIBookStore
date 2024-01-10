@@ -10,19 +10,19 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
-import static specs.BookSpecs.*;
+import static specs.Specs.*;
 
 public class BookAPI {
 
     public void deleteAllBooks(LoginResponseModel loginResponse) {
-        given(bookRequestSpec)
+        given(requestSpec)
                 .contentType(JSON)
                 .header("Authorization", "Bearer " + loginResponse.getToken())
                 .queryParam("UserId", loginResponse.getUserId())
                 .when()
                 .delete("/BookStore/v1/Books")
                 .then()
-                .spec(bookResponseSpec);
+                .spec(responseSpec);
     }
 
     public void addBook(LoginResponseModel loginResponse, AddBookListModel booksList) {
@@ -33,13 +33,13 @@ public class BookAPI {
         booksList.setUserId(loginResponse.getUserId());
         booksList.setCollectionOfIsbns(isbnList);
 
-        given(bookRequestSpec)
+        given(requestSpec)
                 .header("Authorization", "Bearer " + loginResponse.getToken())
                 .body(booksList)
                 .when()
                 .post("/BookStore/v1/Books")
                 .then()
-                .spec(addBookResponseSpec);
+                .spec(responseSpec);
     }
 
     public void deleteOneBook(LoginResponseModel loginResponse, String isbn) {
@@ -48,12 +48,12 @@ public class BookAPI {
         deleteBook.setUserId(loginResponse.getUserId());
         deleteBook.setIsbn(isbn);
 
-        given(bookRequestSpec)
+        given(requestSpec)
                 .header("Authorization", "Bearer " + loginResponse.getToken())
                 .body(deleteBook)
                 .when()
                 .delete("/BookStore/v1/Book")
                 .then()
-                .spec(bookResponseSpec);
+                .spec(responseSpec);
     }
 }
